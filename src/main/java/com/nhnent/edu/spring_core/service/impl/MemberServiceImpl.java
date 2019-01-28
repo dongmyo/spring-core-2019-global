@@ -3,25 +3,17 @@ package com.nhnent.edu.spring_core.service.impl;
 import com.nhnent.edu.spring_core.domain.Member;
 import com.nhnent.edu.spring_core.service.MemberService;
 import com.nhnent.edu.spring_core.service.NotificationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-    private NotificationService smsService;
+    private final NotificationService smsService;
 
-    private NotificationService kakaoService;
+    private final NotificationService kakaoService;
 
 
-    @Autowired
-    public void setSmsService(NotificationService smsService) {
+    public MemberServiceImpl(NotificationService smsService, NotificationService kakaoService) {
         this.smsService = smsService;
-    }
-
-    @Autowired
-    @Qualifier("kakaoService")
-    public void setKakaoService(NotificationService kakaoService) {
         this.kakaoService = kakaoService;
     }
 
