@@ -9,12 +9,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-    @Autowired
     private NotificationService smsService;
+
+    private NotificationService kakaoService;
+
+
+    @Autowired
+    public void setSmsService(NotificationService smsService) {
+        this.smsService = smsService;
+    }
 
     @Autowired
     @Qualifier("kakaoService")
-    private NotificationService kakaoService;
+    public void setKakaoService(NotificationService kakaoService) {
+        this.kakaoService = kakaoService;
+    }
 
 
     @Override
