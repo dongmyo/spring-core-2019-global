@@ -2,7 +2,7 @@ package com.nhnent.edu.spring_core;
 
 import com.nhnent.edu.spring_core.config.Config;
 import com.nhnent.edu.spring_core.domain.Member;
-import com.nhnent.edu.spring_core.service.MemberService;
+import com.nhnent.edu.spring_core.component.MemberService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**

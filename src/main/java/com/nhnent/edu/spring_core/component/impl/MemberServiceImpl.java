@@ -1,12 +1,16 @@
-package com.nhnent.edu.spring_core.service.impl;
+package com.nhnent.edu.spring_core.component.impl;
 
 import com.nhnent.edu.spring_core.domain.Member;
-import com.nhnent.edu.spring_core.service.MemberService;
+import com.nhnent.edu.spring_core.component.MemberService;
 import com.nhnent.edu.spring_core.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+// TODO : #3 MemberServiceImpl class도 패키지 이동.
 @Service
 public class MemberServiceImpl implements MemberService {
     @Autowired
@@ -31,6 +35,19 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return true;
+    }
+
+    // TODO : #4 init(), destroy() 메쏘드를 구현.
+    @Override
+//    @PostConstruct
+    public void init() {
+        System.out.println("member inited");
+    }
+
+    @Override
+//    @PreDestroy
+    public void destroy() {
+        System.out.println("member destroyed");
     }
 
 }
