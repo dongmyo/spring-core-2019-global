@@ -17,7 +17,6 @@ public class NotiLogDaoImpl implements NotiLogDao {
     private final JdbcTemplate jdbcTemplate;
 
 
-    // TODO : #6 실습 - constructor inject을 이용해서 JdbcTemplate 빈을 주입하세요.
     public NotiLogDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
