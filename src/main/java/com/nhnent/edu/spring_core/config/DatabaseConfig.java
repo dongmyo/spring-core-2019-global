@@ -3,6 +3,7 @@ package com.nhnent.edu.spring_core.config;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -43,9 +44,21 @@ public class DatabaseConfig {
     }
 
     // TODO : #5 실습 - DataSource를 이용해서 JdbcTemplate 빈을 생성하세요.
+    @Primary
     @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return null;
+    public JdbcTemplate jdbcTemplate1() {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
+        jdbcTemplate.setResultsMapCaseInsensitive(true);
+
+        return jdbcTemplate;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate2(DataSource dataSource) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.setResultsMapCaseInsensitive(true);
+
+        return jdbcTemplate;
     }
 
 }

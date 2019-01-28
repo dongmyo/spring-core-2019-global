@@ -18,6 +18,7 @@ public class MemberServiceImpl implements MemberService {
     private NotificationService kakaoService;
 
     // TODO : #7 실습 - field injection을 이용하여 NotiLogData 빈을 주입하세요.
+    @Autowired
     private NotiLogDao notiLogDao;
 
 
