@@ -1,9 +1,14 @@
 package com.nhnent.edu.spring_core.domain;
 
+// TODO : #2 Member 도메인 모델.
 public class Member {
-    private final String name;
-    private final String phoneNumber;
+    private String name;
+    private String phoneNumber;
 
+
+    public Member() {
+        // nothing
+    }
 
     public Member(String name, String phoneNumber) {
         this.name = name;
@@ -15,8 +20,21 @@ public class Member {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPhoneNumber() {
         return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "name=" + name + ", phoneNumber=" + phoneNumber;
     }
 
 }

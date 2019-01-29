@@ -1,10 +1,13 @@
 package com.nhnent.edu.spring_core.service.impl;
 
 import com.nhnent.edu.spring_core.domain.Member;
+import com.nhnent.edu.spring_core.repository.MemberDao;
 import com.nhnent.edu.spring_core.repository.NotiLogDao;
 import com.nhnent.edu.spring_core.service.MemberService;
 import com.nhnent.edu.spring_core.service.NotificationService;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -12,10 +15,13 @@ public class MemberServiceImpl implements MemberService {
 
     private final NotiLogDao notiLogDao;
 
+    private final MemberDao memberDao;
 
-    public MemberServiceImpl(NotificationService notificationService, NotiLogDao notiLogDao) {
+
+    public MemberServiceImpl(NotificationService notificationService, NotiLogDao notiLogDao, MemberDao memberDao) {
         this.notificationService = notificationService;
         this.notiLogDao = notiLogDao;
+        this.memberDao = memberDao;
     }
 
 
@@ -31,6 +37,27 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return true;
+    }
+
+    // TODO : #6 멤버를 조회 및 생성, 교체할 수 있는 메쏘드 구현.
+    @Override
+    public Member getOrCreateMember(Member member) {
+        Member dbMember = memberDao.getMember(member.getName());
+        if (Objects.nonNull(dbMember)) {
+            return dbMember;
+        } else {
+            memberDao.insertMember(member);
+            return member;
+        }
+    }
+
+    @Override
+    public void exchangeMembers(Member member1, Member member2) {
+        Member newMember1 = new Member(member1.getName(), member2.getPhoneNumber());
+        Member newMember2 = new Member(member2.getName(), member1.getPhoneNumber());
+
+        memberDao.updateMember(newMember1);
+        memberDao.updateMember(newMember2);
     }
 
 }
