@@ -9,10 +9,12 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
+@Order(2)
 public class LoggingAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggingAspect.class);
 
@@ -24,9 +26,7 @@ public class LoggingAspect {
 
     @AfterReturning(value = "execution(* com.nhnent.edu.spring_core.repository.NotiLogDao.insertLog(..))",
             returning = "logId")
-    // TODO : #1 JoinPoint는 첫번째 argument여야 함.
     public void logAfterInsertLog(JoinPoint joinPoint, int logId) {
-        // TODO : #2 JoinPoint에서 parameter를 가져온다.
         Member member = retrieveArgument(joinPoint, Member.class, "member");
         LOGGER.debug("member={}, inserted log_id={}", member, logId);
     }
