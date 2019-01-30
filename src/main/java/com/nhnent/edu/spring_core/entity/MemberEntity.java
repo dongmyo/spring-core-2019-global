@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-// TODO : #6 MEMBER 테이블과 맵핑될 Entity 클래스.
 @Entity
 @Table(name = "MEMBER")
 public class MemberEntity {

@@ -29,7 +29,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- TODO : #1 spring data BOM -->
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-releasetrain</artifactId>
@@ -72,17 +71,27 @@
             <version>1.4.197</version>
         </dependency>
 
-        <!-- TODO : #2 spring-data-jpa -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
         </dependency>
 
-        <!-- TODO : #3 hibernate -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>5.4.1.Final</version>
+        </dependency>
+
+        <!-- TODO : #1 querydsl -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>4.2.1</version>
         </dependency>
 
 	</dependencies>
@@ -106,6 +115,28 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.1</version>
             </plugin>
+
+            <!-- TODO : #2 querydsl annotation processor plugin -->
+            <plugin>
+                <groupId>com.mysema.maven</groupId>
+                <artifactId>apt-maven-plugin</artifactId>
+                <version>1.1.3</version>
+                <configuration>
+                    <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/generated-sources/annotations/java</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>  
 </project>

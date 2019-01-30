@@ -22,7 +22,6 @@ import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
 
-// TODO : #4 spring data jpa repository 사용.
 @EnableJpaRepositories("com.nhnent.edu.spring_core.repository")
 @Configuration
 @PropertySource("classpath:datasource.properties")
@@ -78,17 +77,6 @@ public class DatabaseConfig {
 
         return jdbcTemplate;
     }
-
-    // TODO : #5 JPA 관련 빈 설정 - transaction manager, entity manager factory 등.
-/*
-    @Bean
-    public PlatformTransactionManager transactionManager(DataSource dataSource) {
-        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
-        transactionManager.setDataSource(dataSource);
-
-        return transactionManager;
-    }
-*/
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
