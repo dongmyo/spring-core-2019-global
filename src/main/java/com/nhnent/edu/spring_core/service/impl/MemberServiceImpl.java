@@ -68,7 +68,6 @@ public class MemberServiceImpl implements MemberService {
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         try {
-            // TODO : #6 기존 save() 메쏘드를 custom 메쏘드인 update()로 변경.
             memberRepository.update(new MemberEntity(newMember1.getName(), newMember1.getPhoneNumber()));
             memberRepository.update(new MemberEntity(newMember2.getName(), newMember2.getPhoneNumber()));
 
