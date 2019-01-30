@@ -17,7 +17,6 @@ public class App
             MemberService memberService = applicationContext.getBean(MemberService.class);
             memberService.subscribe(new Member("김병부", "01099499102"));
 
-            // TODO : #7 MemberService를 이용해서 Member 객체를 조회 및 생성하고, 서로의 전화번호를 교체.
             Member member1 = memberService.getOrCreateMember(new Member("nhn", "01000000000"));
             System.out.println(member1);
 

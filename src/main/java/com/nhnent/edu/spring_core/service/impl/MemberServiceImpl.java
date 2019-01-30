@@ -6,6 +6,9 @@ import com.nhnent.edu.spring_core.repository.NotiLogDao;
 import com.nhnent.edu.spring_core.service.MemberService;
 import com.nhnent.edu.spring_core.service.NotificationService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.Objects;
 
@@ -17,11 +20,16 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberDao memberDao;
 
+    // TODO : #2 transaction manager 빈 주입.
+    private final PlatformTransactionManager transactionManager;
 
-    public MemberServiceImpl(NotificationService notificationService, NotiLogDao notiLogDao, MemberDao memberDao) {
+
+    public MemberServiceImpl(NotificationService notificationService, NotiLogDao notiLogDao, MemberDao memberDao,
+                             PlatformTransactionManager transactionManager) {
         this.notificationService = notificationService;
         this.notiLogDao = notiLogDao;
         this.memberDao = memberDao;
+        this.transactionManager = transactionManager;
     }
 
 
@@ -39,7 +47,6 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
-    // TODO : #6 멤버를 조회 및 생성, 교체할 수 있는 메쏘드 구현.
     @Override
     public Member getOrCreateMember(Member member) {
         Member dbMember = memberDao.getMember(member.getName());
@@ -56,8 +63,19 @@ public class MemberServiceImpl implements MemberService {
         Member newMember1 = new Member(member1.getName(), member2.getPhoneNumber());
         Member newMember2 = new Member(member2.getName(), member1.getPhoneNumber());
 
-        memberDao.updateMember(newMember1);
-        memberDao.updateMember(newMember2);
+        // TODO : #3 TransactionDefinition, TransactionStatus 를 사용하여 transaction commit, rollback 적용.
+        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+        try {
+            memberDao.updateMember(newMember1);
+            memberDao.updateMember(newMember2);
+
+            transactionManager.commit(status);
+        } catch (RuntimeException e) {
+            transactionManager.rollback(status);
+            throw e;
+        }
+
     }
 
 }

@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -64,6 +66,15 @@ public class DatabaseConfig {
         jdbcTemplate.setResultsMapCaseInsensitive(true);
 
         return jdbcTemplate;
+    }
+
+    // TODO : #1 transaction manager 빈 등록.
+    @Bean
+    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+        transactionManager.setDataSource(dataSource);
+
+        return transactionManager;
     }
 
 }
