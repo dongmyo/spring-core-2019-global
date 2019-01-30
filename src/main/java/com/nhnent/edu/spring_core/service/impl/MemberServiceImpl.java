@@ -42,12 +42,7 @@ public class MemberServiceImpl implements MemberService {
 
         if (member.getPhoneNumber() != null && !member.getPhoneNumber().isEmpty()) {
             notificationService.sendNotification(member.getPhoneNumber(), "Success to Subscribe");
-            // TODO : #1 notiLogDao.insertLog() 메쏘드 호출 결과 값을 AOP를 이용해서 logging하도록 수정.
             notiLogDao.insertLog(member, notificationService.getType());
-/*
-            int logId = notiLogDao.insertLog(member, notificationService.getType());
-            System.out.println(notiLogDao.getLog(logId));
-*/
         }
 
         return true;
