@@ -7,12 +7,23 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.Objects;
+import java.util.Properties;
 
+// TODO : #4 spring data jpa repository 사용.
+@EnableJpaRepositories("com.nhnent.edu.spring_core.repository")
 @Configuration
 @PropertySource("classpath:datasource.properties")
 public class DatabaseConfig {
@@ -68,13 +79,54 @@ public class DatabaseConfig {
         return jdbcTemplate;
     }
 
-    // TODO : #1 transaction manager 빈 등록.
+    // TODO : #5 JPA 관련 빈 설정 - transaction manager, entity manager factory 등.
+/*
     @Bean
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
         transactionManager.setDataSource(dataSource);
 
         return transactionManager;
+    }
+*/
+
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
+
+        return transactionManager;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource);
+        em.setPackagesToScan("com.nhnent.edu.spring_core.entity");
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setDatabase(Database.H2);
+
+        em.setJpaVendorAdapter(vendorAdapter);
+        em.setJpaProperties(jpaProperties());
+
+        return em;
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    Properties jpaProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.show_sql", "false");
+        properties.setProperty("hibernate.format_sql", "false");
+        properties.setProperty("hibernate.use_sql_comments", "false");
+        properties.setProperty("hibernate.globally_quoted_identifiers", "true");
+        properties.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
+
+        return properties;
     }
 
 }

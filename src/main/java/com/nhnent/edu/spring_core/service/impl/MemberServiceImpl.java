@@ -1,7 +1,10 @@
 package com.nhnent.edu.spring_core.service.impl;
 
+import com.nhnent.edu.spring_core.assembler.MemberAssembler;
 import com.nhnent.edu.spring_core.domain.Member;
+import com.nhnent.edu.spring_core.entity.MemberEntity;
 import com.nhnent.edu.spring_core.repository.MemberDao;
+import com.nhnent.edu.spring_core.repository.MemberRepository;
 import com.nhnent.edu.spring_core.repository.NotiLogDao;
 import com.nhnent.edu.spring_core.service.MemberService;
 import com.nhnent.edu.spring_core.service.NotificationService;
@@ -18,17 +21,18 @@ public class MemberServiceImpl implements MemberService {
 
     private final NotiLogDao notiLogDao;
 
-    private final MemberDao memberDao;
+    // TODO : #8 JPA 사용 (MemberDao 대신 MemberRepository 사용)
+//    private final MemberDao memberDao;
+    private final MemberRepository memberRepository;
 
-    // TODO : #2 transaction manager 빈 주입.
     private final PlatformTransactionManager transactionManager;
 
 
-    public MemberServiceImpl(NotificationService notificationService, NotiLogDao notiLogDao, MemberDao memberDao,
+    public MemberServiceImpl(NotificationService notificationService, NotiLogDao notiLogDao, MemberRepository memberRepository,
                              PlatformTransactionManager transactionManager) {
         this.notificationService = notificationService;
         this.notiLogDao = notiLogDao;
-        this.memberDao = memberDao;
+        this.memberRepository = memberRepository;
         this.transactionManager = transactionManager;
     }
 
@@ -49,6 +53,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member getOrCreateMember(Member member) {
+        // TODO : #8
+        MemberEntity memberEntity = memberRepository.findById(member.getName()).orElse(null);
+        if (Objects.nonNull(memberEntity)) {
+            return new MemberAssembler().toDto(memberEntity);
+        } else {
+            memberRepository.save(new MemberEntity(member.getName(), member.getPhoneNumber()));
+            return member;
+        }
+/*
         Member dbMember = memberDao.getMember(member.getName());
         if (Objects.nonNull(dbMember)) {
             return dbMember;
@@ -56,6 +69,7 @@ public class MemberServiceImpl implements MemberService {
             memberDao.insertMember(member);
             return member;
         }
+*/
     }
 
     @Override
@@ -63,12 +77,14 @@ public class MemberServiceImpl implements MemberService {
         Member newMember1 = new Member(member1.getName(), member2.getPhoneNumber());
         Member newMember2 = new Member(member2.getName(), member1.getPhoneNumber());
 
-        // TODO : #3 TransactionDefinition, TransactionStatus 를 사용하여 transaction commit, rollback 적용.
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         try {
-            memberDao.updateMember(newMember1);
-            memberDao.updateMember(newMember2);
+            // TODO : #8
+            memberRepository.save(new MemberEntity(newMember1.getName(), newMember1.getPhoneNumber()));
+            memberRepository.save(new MemberEntity(newMember2.getName(), newMember2.getPhoneNumber()));
+//            memberDao.updateMember(newMember1);
+//            memberDao.updateMember(newMember2);
 
             transactionManager.commit(status);
         } catch (RuntimeException e) {
