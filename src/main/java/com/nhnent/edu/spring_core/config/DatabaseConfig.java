@@ -69,6 +69,7 @@ public class DatabaseConfig {
     }
 
     // TODO : #1 transaction manager 빈 등록.
+    // TODO : #1 register transaction manager bean.
     @Bean
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
