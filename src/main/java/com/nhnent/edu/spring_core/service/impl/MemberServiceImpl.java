@@ -21,7 +21,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final NotiLogDao notiLogDao;
 
-    // TODO : #8 JPA 사용 (MemberDao 대신 MemberRepository 사용)
+    // TODO : #8 use JPA (use MemberRepository instead of MemberDao)
 //    private final MemberDao memberDao;
     private final MemberRepository memberRepository;
 
