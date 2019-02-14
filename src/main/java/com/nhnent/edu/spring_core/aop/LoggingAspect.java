@@ -25,8 +25,10 @@ public class LoggingAspect {
     @AfterReturning(value = "execution(* com.nhnent.edu.spring_core.repository.NotiLogDao.insertLog(..))",
             returning = "logId")
     // TODO : #1 JoinPoint는 첫번째 argument여야 함.
+    // TODO : #1 JoinPoint must be the first argument.
     public void logAfterInsertLog(JoinPoint joinPoint, int logId) {
         // TODO : #2 JoinPoint에서 parameter를 가져온다.
+    	// TODO : #2 retrieve argument from the JoinPoint.
         Member member = retrieveArgument(joinPoint, Member.class, "member");
         LOGGER.debug("member={}, inserted log_id={}", member, logId);
     }
