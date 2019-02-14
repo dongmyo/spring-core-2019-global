@@ -20,8 +20,9 @@ public class LoggingAspect {
 
     // TODO : #2 실습 - `com.nhnent.edu.spring_core.repository.NotiLogDao.insertLog` 메쏘드가 성공적으로 리턴된 후에
     // 반환되는 logId 값을 로그로 남겨주세요.
-    @???(value = "???",
-            returning = "logId")
+    // TODO : #2 practive - implement to log the returned logId of `com.nhnent.edu.spring_core.repository.NotiLogDao.insertLog` method call   
+//    @???(value = "???",
+//            returning = "logId")
     public void logAfterInsertLog(int logId) {
         LOGGER.debug("inserted log_id={}", logId);
     }
