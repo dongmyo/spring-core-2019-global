@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-// TODO : #6 logging용 Aspect.
+// TODO : #6 Logging Aspect.
 @Component
 @Aspect
 public class LoggingAspect {

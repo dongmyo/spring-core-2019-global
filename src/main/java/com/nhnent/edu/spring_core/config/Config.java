@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
-// TODO : #5 @AspectJ 사용.
+// TODO : #5 use @AspectJ.
 @EnableAspectJAutoProxy
 @Configuration
 @ComponentScan("com.nhnent.edu.spring_core")
