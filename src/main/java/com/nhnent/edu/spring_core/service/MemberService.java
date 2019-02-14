@@ -6,7 +6,7 @@ public interface MemberService {
     boolean subscribe(Member member);
 
     // TODO : #5 멤버를 조회 및 생성, 교체할 수 있는 메쏘드 추가.
-
+    // TODO : #5 a new method which looks up and creates or updates a member.
     Member getOrCreateMember(Member member);
 
     void exchangeMembers(Member member1, Member member2);

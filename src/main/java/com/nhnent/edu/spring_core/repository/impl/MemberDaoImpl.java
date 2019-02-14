@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 // TODO : #4 JdbcTemplate을 이용하여 MemberDao 구현체 생성.
+// TODO : #4 MemberDataImpl using JdbcTemplate.
 @Repository
 public class MemberDaoImpl implements MemberDao {
     @Autowired
@@ -36,6 +37,7 @@ public class MemberDaoImpl implements MemberDao {
     @Override
     public void updateMember(Member member) {
         // TODO: #8 만약 여기서 exception이 발생하면?
+    	// TODO: #8 what if exception occurs here?
         /*
         if ("global".equals(member.getName())) {
             throw new RuntimeException("error occurred!!!");

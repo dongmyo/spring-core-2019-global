@@ -40,6 +40,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     // TODO : #6 멤버를 조회 및 생성, 교체할 수 있는 메쏘드 구현.
+    // TODO : #6 implementation of getOrCreateMember().
     @Override
     public Member getOrCreateMember(Member member) {
         Member dbMember = memberDao.getMember(member.getName());
