@@ -9,18 +9,17 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-// TODO : #1 `com.nhnent.edu.spring_core.repository.NotiLogDao.insertLog` 메쏘드 수행시간 로깅을 위한 aspect.
-// TODO : #1 aspect for logging the execution time of `com.nhnent.edu.spring_core.repository.NotiLogDao.insertLog` method. 
 @Component
 @Aspect
-// TODO : #2 aspect간 우선순위 지정.
-// TODO : #2 set order among aspects.
 @Order(1)
 public class MeasuringAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(MeasuringAspect.class);
 
 
-    @Around("execution(* com.nhnent.edu.spring_core.repository.NotiLogDao.insertLog(..))")
+    /*
+     * TODO : #2 포인트컷 표현식 변경
+     */
+    @Around("@annotation(com.nhnent.edu.spring_core.aop.Measure)")
     public Object logInsertLogPerformance(ProceedingJoinPoint joinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -33,16 +32,6 @@ public class MeasuringAspect {
             LOGGER.debug("NotiLogDao.insertLog execution: {} ms", stopWatch.getLastTaskTimeMillis());
         }
 
-        /*
-         * TODO : #3 만약 ...
-         * joinPoint.process()를 하지 않으면?
-         * 다른 값을 return 하면?
-         */
-        /*
-         * TODO : #3 what if ...
-         * joinPoint.proceed() is removed ?
-         * wrong value is returned
-         */
         return result;
     }
 

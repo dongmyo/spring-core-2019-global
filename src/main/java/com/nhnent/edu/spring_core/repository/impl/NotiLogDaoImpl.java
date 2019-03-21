@@ -1,5 +1,6 @@
 package com.nhnent.edu.spring_core.repository.impl;
 
+import com.nhnent.edu.spring_core.aop.Measure;
 import com.nhnent.edu.spring_core.domain.Log;
 import com.nhnent.edu.spring_core.domain.Member;
 import com.nhnent.edu.spring_core.repository.NotiLogDao;
@@ -21,6 +22,11 @@ public class NotiLogDaoImpl implements NotiLogDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /*
+     * TODO #3
+     * Measure 애너테이션 추가
+     */
+    @Measure
     @Override
     public int insertLog(Member member, String type) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
